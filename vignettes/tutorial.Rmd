@@ -1,0 +1,24 @@
+---
+title: "Project 3: project3package Tutorial"
+author: "Josiah Thulin"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{project3package Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(project3package)
+```
+
+```{r}
+2 * 2
+```

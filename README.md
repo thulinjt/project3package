@@ -10,10 +10,10 @@ The goal of project3package is to ...
 
 ## Installation
 
-You can install the released version of project3package from [CRAN](https://CRAN.R-project.org) with:
+You can install the project3package using the followign line:
 
 ``` r
-install.packages("project3package")
+devtools::install_github("thulinjt/project3package", build_vignette = TRUE, build_opts = c())
 ```
 
 ## Example
