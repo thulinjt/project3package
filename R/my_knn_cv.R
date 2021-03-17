@@ -19,8 +19,11 @@
 #'   the folds in the cross-validation.
 #'
 #' @examples
-#' my_knn_cv(train = my_penguins %>% select(body_mass_g, bill_length_mm) %>% na.omit(),
-#'           cl = my_penguins %>% select(body_mass_g, species) %>% na.omit() %>% select(species),
+#' my_knn_cv(train = my_penguins %>% dplyr::select(body_mass_g,
+#'                                          flipper_length_mm,
+#'                                          bill_length_mm,
+#'                                          bill_depth_mm),
+#'           cl = my_penguins %>% dplyr::select(species),
 #'           k_nn = 3,
 #'           k_cv = 5)
 #'
@@ -46,7 +49,7 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     temp_test$cl <- NULL
     temp_test$fold <- NULL
     # run knn() on fold i
-    predict_class <- knn(train = temp_train,
+    predict_class <- class::knn(train = temp_train,
                          test = temp_test,
                          cl = temp_cl,
                          k = k_nn)
@@ -57,7 +60,7 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # proportion sum by number of folds
   avg_misclass_rate <- misclass_sum / k_cv
   # run knn with full data as training and test data
-  result_knn <- knn(train = train, test = train, cl = cl, k = k_nn)
+  result_knn <- class::knn(train = train, test = train, cl = cl, k = k_nn)
   result <- list("class" = result_knn, "cv_error" = avg_misclass_rate)
   return(result)
 }

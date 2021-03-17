@@ -20,7 +20,7 @@ cross-validation of a 100-branch random forest algorithm performed on three vari
 of the \code{penguins} data.
 }
 \examples{
-my_rf_cv(5)
+my_rf_cv(3)
 
 }
 \keyword{prediction}

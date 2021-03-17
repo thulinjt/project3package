@@ -12,14 +12,16 @@
 #'   \code{k} folds.
 #'
 #' @examples
-#' my_rf_cv(5)
+#' my_rf_cv(3)
 #'
 #' @export
 my_rf_cv <- function(k) {
+  # run check on input class
+  if(class(k) != "numeric") {
+    stop("k must be numeric")
+  }
   # obtain desired penguins data
-  fun_data <- my_penguins %>%
-    dplyr::select(body_mass_g, bill_length_mm, bill_depth_mm, flipper_length_mm) %>%
-    na.omit()
+  fun_data <- my_penguins
   # randomly assign observations to one of k folds
   fold <- sample(rep(1:k, length = nrow(fun_data)))
   fun_data <- cbind(fun_data, fold)

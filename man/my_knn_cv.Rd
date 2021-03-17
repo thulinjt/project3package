@@ -30,8 +30,11 @@ This function runs a k-nearest-neighbors classification algorithm on a
 specified set of data and performs k-fold cross-validation on it.
 }
 \examples{
-my_knn_cv(train = my_penguins \%>\% select(body_mass_g, bill_length_mm) \%>\% na.omit(),
-          cl = my_penguins \%>\% select(body_mass_g, species) \%>\% na.omit() \%>\% select(species),
+my_knn_cv(train = my_penguins \%>\% dplyr::select(body_mass_g,
+                                         flipper_length_mm,
+                                         bill_length_mm,
+                                         bill_depth_mm),
+          cl = my_penguins \%>\% dplyr::select(species),
           k_nn = 3,
           k_cv = 5)
 
