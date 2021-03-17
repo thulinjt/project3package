@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/thulinjt/project3package/workflows/R-CMD-check/badge.svg)](https://github.com/thulinjt/project3package/actions)
+[![codecov](https://codecov.io/gh/thulinjt/project3package/branch/master/graph/badge.svg?token=CXTN4M3CP9)](https://codecov.io/gh/thulinjt/project3package)
 <!-- badges: end -->
 
 The goal of project3package is to ...
