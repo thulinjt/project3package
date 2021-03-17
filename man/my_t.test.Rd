@@ -26,3 +26,9 @@ the p-value for the t-test.
 \description{
 This function performs a t-test on a set of data against a hypothesis.
 }
+\examples{
+my_t.test(x = my_gapminder$lifeExp, alternative = "two.sided", mu = 55)
+my_t.test(x = my_gapminder$gdpPercap, alternative = "greater", mu = 10000)
+
+}
+\keyword{inference}

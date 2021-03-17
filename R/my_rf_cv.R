@@ -6,6 +6,7 @@
 #'
 #' @param k A numeric containing the number of folds to use in the k-fold
 #'   cross-validation.
+#' @keywords prediction
 #'
 #' @return A numeric representing the average mean-squared-error across all
 #'   \code{k} folds.
@@ -14,7 +15,7 @@
 my_rf_cv <- function(k) {
   # obtain desired penguins data
   fun_data <- my_penguins %>%
-    select(body_mass_g, bill_length_mm, bill_depth_mm, flipper_length_mm) %>%
+    dplyr::select(body_mass_g, bill_length_mm, bill_depth_mm, flipper_length_mm) %>%
     na.omit()
   # randomly assign observations to one of k folds
   fold <- sample(rep(1:k, length = nrow(fun_data)))
@@ -27,7 +28,7 @@ my_rf_cv <- function(k) {
     temp_train <- fun_data %>% filter(fold != i)
     temp_test <- fun_data %>% filter(fold == i)
     # run randomForest() on training data outside of fold
-    rf_model <- randomForest(formula = body_mass_g ~ bill_length_mm +
+    rf_model <- randomForest::randomForest(formula = body_mass_g ~ bill_length_mm +
                                bill_depth_mm +
                                flipper_length_mm,
                              data = temp_train,

@@ -29,3 +29,4 @@ the folds in the cross-validation.
 This function runs a k-nearest-neighbors classification algorithm on a
 specified set of data and performs k-fold cross-validation on it.
 }
+\keyword{prediction}

@@ -10,6 +10,7 @@
 #'   k-nearest-neighbors algorithm.
 #' @param k_cv A numeric specifying the number of folds to be used in the
 #'   cross-validation.
+#' @keywords prediction
 #'
 #' @return A list with two elements: \code{class}, a vector of predicted classes
 #'   for each observation in \code{train} using \code{k_nn} nearest neighbors

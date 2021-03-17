@@ -5,6 +5,8 @@
 #' @param formula A formula object with the linear regression equation to be
 #'   calculated from data set \code{data}.
 #' @param data A data frame containing the data to be modeled.
+#' @keywords inference
+#' @keywords prediction
 #'
 #' @return A table with coefficient estimates and standard errors for each
 #'   variable specified by \code{formula} in the linear model as well as

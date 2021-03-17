@@ -21,3 +21,5 @@ estimate.
 \description{
 This function calculates a linear regression model for given data.
 }
+\keyword{inference}
+\keyword{prediction}

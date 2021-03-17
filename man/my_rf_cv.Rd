@@ -19,3 +19,4 @@ This function calculates the cross-validation error of a k-fold
 cross-validation of a 100-branch random forest algorithm performed on three variables
 of the \code{penguins} data.
 }
+\keyword{prediction}

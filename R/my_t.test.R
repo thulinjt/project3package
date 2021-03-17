@@ -7,6 +7,7 @@
 #'   performed on \code{x}, must be either \code{"less"} or \code{"greater"}
 #'   for a one-sided t-test or \code{"two.sided"} for a two-sided test.
 #' @param mu Numeric representing the null hypothesis value of the mean.
+#' @keywords inference
 #'
 #' @return List with four elements: \code{test_stat} is a numeric contianing
 #'   the value of the test statistic of \code{x}, \code{df} is a numeric
@@ -14,6 +15,10 @@
 #'   is a string that represents the type of t-test used (the value of the
 #'   \code{alternative} parameter), and \code{p-val} is a numeric containing
 #'   the p-value for the t-test.
+#'
+#' @examples
+#' my_t.test(x = my_gapminder$lifeExp, alternative = "two.sided", mu = 55)
+#' my_t.test(x = my_gapminder$gdpPercap, alternative = "greater", mu = 10000)
 #'
 #' @export
 my_t.test <- function(x, alternative, mu) {
