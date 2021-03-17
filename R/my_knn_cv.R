@@ -18,6 +18,12 @@
 #'   misclassification rate of the k-nearest-neighbors algorithm across all
 #'   the folds in the cross-validation.
 #'
+#' @examples
+#' my_knn_cv(train = my_penguins %>% select(body_mass_g, bill_length_mm) %>% na.omit(),
+#'           cl = my_penguins %>% select(body_mass_g, species) %>% na.omit() %>% select(species),
+#'           k_nn = 3,
+#'           k_cv = 5)
+#'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # combine classes with obervations

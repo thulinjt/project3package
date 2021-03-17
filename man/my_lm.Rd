@@ -21,5 +21,9 @@ estimate.
 \description{
 This function calculates a linear regression model for given data.
 }
+\examples{
+my_lm(lifeExp ~ gdpPercap, data = my_gapminder)
+
+}
 \keyword{inference}
 \keyword{prediction}

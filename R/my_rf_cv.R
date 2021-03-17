@@ -11,6 +11,9 @@
 #' @return A numeric representing the average mean-squared-error across all
 #'   \code{k} folds.
 #'
+#' @examples
+#' my_rf_cv(5)
+#'
 #' @export
 my_rf_cv <- function(k) {
   # obtain desired penguins data

@@ -13,6 +13,9 @@
 #'   t-values and p-values for two-sided t-tests performed on each coefficient
 #'   estimate.
 #'
+#' @examples
+#' my_lm(lifeExp ~ gdpPercap, data = my_gapminder)
+#'
 #' @export
 my_lm <- function(formula, data) {
   # obtain model matrix
