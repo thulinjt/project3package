@@ -24,14 +24,14 @@ my_rf_cv <- function(k) {
   fun_data <- project3package::my_penguins
   # randomly assign observations to one of k folds
   fold <- sample(rep(1:k, length = nrow(fun_data)))
-  fun_data <- cbind(fun_data, fold)
+  fun_data$fold <- fold
   # define cumulative sum of mean squared errors for each fold
   mse_sum <- 0
   # iterate through k folds
   for (i in 1:k) {
     # split data in fold and out of fold
-    temp_train <- fun_data %>% filter(fold != i)
-    temp_test <- fun_data %>% filter(fold == i)
+    temp_train <- fun_data %>% dplyr::filter(fold != i)
+    temp_test <- fun_data %>% dplyr::filter(fold == i)
     # run randomForest() on training data outside of fold
     rf_model <- randomForest::randomForest(formula = body_mass_g ~ bill_length_mm +
                                bill_depth_mm +
