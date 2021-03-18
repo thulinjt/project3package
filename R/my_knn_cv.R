@@ -24,7 +24,7 @@
 #'                                          flipper_length_mm,
 #'                                          bill_length_mm,
 #'                                          bill_depth_mm)
-#' my_cl <- my_penguins %>% dplyr::pull(species)
+#' my_cl <- my_penguins$species
 #' my_knn_cv(train = my_train,
 #'           cl = my_cl,
 #'           k_nn = 3,
@@ -45,9 +45,9 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # perform k-nearest-neighbors cross-validation on each fold
   for (i in 1:k_cv) {
     # split input data into training and test data based on fold
-    temp_train <- train_class %>% filter(fold != i)
+    temp_train <- train_class %>% dplyr::filter(fold != i)
     temp_cl <- temp_train$cl
-    temp_test <- train_class %>% filter(fold == i)
+    temp_test <- train_class %>% dplyr::filter(fold == i)
     temp_result_cl <- temp_test$cl
     # remove cl and fold columns for knn() call
     temp_train$cl <- NULL

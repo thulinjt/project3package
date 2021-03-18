@@ -35,7 +35,7 @@ my_train <- my_penguins \%>\% dplyr::select(body_mass_g,
                                          flipper_length_mm,
                                          bill_length_mm,
                                          bill_depth_mm)
-my_cl <- my_penguins \%>\% dplyr::pull(species)
+my_cl <- my_penguins$species
 my_knn_cv(train = my_train,
           cl = my_cl,
           k_nn = 3,
