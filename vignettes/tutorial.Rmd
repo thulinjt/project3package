@@ -160,7 +160,7 @@ model_plot
 For values of `lifeExp` in the `my_gapminder` data above about 70, the model does an okay job of fitting the data and accurately estimating `lifeExp`. There are some clear outliers where the estimate of `lifeExp` is far higher than the actual value of `lifeExp`. With lower values of variable estimates, there appear to be distint groupings of points in vertical-bar clusters. This could be caused by the fact that points are categorized by `continent`. Different continents have different coefficients in the model, and if the continent has a large spread of actual life expectancy values, the weight of the continent category in the model could be grouping this wide spread of values on the y-axis into narrow windows on the x-axis. Overall, the model does an adequate job of estimating values of `lifeExp` based on `gdpPercap` and `continent`.
 
 
-### `my_knn_cv': k-nearest-neighbors statistical prediction
+### `my_knn_cv`: k-nearest-neighbors statistical prediction
 
 
 
