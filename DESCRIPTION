@@ -19,12 +19,12 @@ Imports:
     randomForest,
     tibble,
     gapminder,
-    ggplot2
+    ggplot2,
+    knitr
 Depends: 
     R (>= 2.10)
 Suggests: 
     testthat (>= 3.0.0),
-    knitr,
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr

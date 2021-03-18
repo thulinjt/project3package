@@ -105,7 +105,7 @@ The function `my_lm()` creates a linear regression model for a given relation of
 lm_results <- my_lm(lifeExp ~ gdpPercap + continent, data = my_gapminder)
 
 # Display coefficients and t-test results
-lm_results
+knitr::kable(lm_results)
 ```
 
 The estimate of the coefficient of `gdpPercap` is `r format(lm_results[2,1], scientific = FALSE)`. In context with the data, this means that, all other things equal, a one-dollar increase in GDP per capita for a given country raises the estimate of the life expectancy of that country by approximtately four ten-thousandths of a year, or roughly four hours.
@@ -161,6 +161,55 @@ For values of `lifeExp` in the `my_gapminder` data above about 70, the model doe
 
 
 ### `my_knn_cv`: k-nearest-neighbors statistical prediction
+
+The function `my_knn_cv()` performs k-nearest-neighbor statistical prediction on a given data set. The following is a demonstration of the function on `my_penguins` data.
+
+```{r}
+# create  data frame to record my_knn_cv calls
+#   with no observations
+my_knn_results <- data.frame("k_nn" = NA,
+                             "train_err" = NA,
+                             "cv_err" = NA) %>% na.omit()
+
+# define variables for my_knn_cv calls
+my_train <- my_penguins %>% 
+  dplyr::select(bill_length_mm, bill_depth_mm,
+                flipper_length_mm, body_mass_g)
+
+my_cl <- my_penguins$species
+
+# run my_knn_cv with 1-10 nearest neighbors
+for (i in 1:10) {
+  # run my_knn_cv
+  temp_knn <- my_knn_cv(train = my_train,
+                        cl = my_cl,
+                        k_nn = i,
+                        k_cv = 5)
+  # calculate training error
+  temp_train_err <- mean(temp_knn$class != my_penguins$species)
+  my_knn_results <- tibble::add_row(my_knn_results, "k_nn" = i,
+                                                      "train_err" = 
+                                                        temp_train_err,
+                                                      "cv_err" =
+                                                        temp_knn$cv_error)
+}
+
+# display table of errors from my_knn_cv calls
+knitr::kable(my_knn_results)
+```
+
+The above code chunk performed k-nearest-neighbors analyses on `my_penguins` data, using measurements of bill length, bill depth, flipper length, and body mass to predict species. The function `my_knn_cv` also performs k-fold cross-validation on the k-nearest-neighbors algorithm it calculates. In k-fold cross-validation, the training data for the algorithm is randomly divided into k equal groups ("folds") and a model is trained by testing the data in the fold against the rest of the data. This process repeats for each fold. Using cross-validation allows for more accurate assess out-of-sample test error, helping us to more clearly evaluate the efficacy of a model in making predictions.
+
+The table above shows the resultant training error and cross-validation error from running a k-nearest-neighbors algorithm using 1 neighbor through 10 neighbors, all using 5-fold cross-validation. For this data, based on the training error and the cross-validation error, I would select the model that uses 1-nearest-neighbor. In general, the optimal model to choose is the one that minimizes cross-validation error, since cross-validation error is a less biased assessment of the error a model will produce in practice. In this instance, the model with the lowest cross-validation error happens to also be the one with the lowest training error, though this will not always be the case.
+
+
+
+
+
+
+
+
+
 
 
 
