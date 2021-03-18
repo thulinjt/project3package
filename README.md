@@ -6,7 +6,6 @@
 [![codecov](https://codecov.io/gh/thulinjt/project3package/branch/master/graph/badge.svg?token=CXTN4M3CP9)](https://codecov.io/gh/thulinjt/project3package)
 <!-- badges: end -->
 
-The goal of project3package is to ...
 
 ## Installation
 

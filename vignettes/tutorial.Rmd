@@ -11,7 +11,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 7.25,
+  fig.height = 5
 )
 ```
 
@@ -19,6 +21,151 @@ knitr::opts_chunk$set(
 library(project3package)
 ```
 
-```{r}
-2 * 2
+## Introduction
+
+This package is made for a final project in the STAT 302 course at the UW. Contained within the package are four functions, each applying a different statistical and programming concept from the course: `my_t.test`, `my_lm`, `my_knn_cv`, and `my_rf_cv`. Each function is explained in further detail below. To install `project3package`, run the following line of code:
+
+```{r, eval=FALSE}
+devtools::install_github("thulinjt/project3package", build_vignettes = TRUE, build_opts = c())
 ```
+
+## Package Functions
+
+### `my_t.test`: One-sample t-test
+
+The function `my_t.test()` conducts a one-sample t-test on a hypothesis. The following is a simple demonstration and analysis of the function as used to conduct hypothesis tests. For all the tests, a significance level of $\alpha = 0.05$ will be used.
+
+**Test 1:**
+$$
+\begin{align*}
+  H_0: &\quad \mu = 60 \\
+  H_a: &\quad \mu \neq 60
+\end{align*}
+$$
+
+```{r}
+# Two-sided test using my_gapminder data
+test_1 <- my_t.test(x = my_gapminder$lifeExp,
+                    alternative = "two.sided",
+                    mu = 60)
+
+# Display the results of the t-test
+test_1
+```
+
+The test statistic for this two-sided t-test was `r round(test_1$test_stat, digits = 2)`, and the p-value was `r round(test_1$p_val, digits = 4)`. Since the p-value is greater than the significance level (`r round(test_1$p_val, digits = 4)` > 0.05), we fail to reject the null hypothesis. In context with the data, this means that there is not sufficient evidence to rule out 60 years as the average life expectancy in the `my_gapminder` data.
+
+**Test 2:**
+$$
+\begin{align*}
+  H_0: &\quad \mu = 60 \\
+  H_a: &\quad \mu < 60
+\end{align*}
+$$
+
+```{r}
+# One-sided test using my_gapminder data
+test_2 <- my_t.test(x = my_gapminder$lifeExp,
+                    alternative = "less",
+                    mu = 60)
+
+# Display the results of the t-test
+test_2
+```
+
+The test statistic for this one-sided t-test was `r round(test_2$test_stat, digits = 2)`, and the p-value was `r round(test_2$p_val, digits = 4)`. Since the p-value is less than the significance level (`r round(test_2$p_val, digits = 4)` < 0.05), we reject the null hypothesis. In context with the data, this means that there is sufficient evidence to determine that the average life expectancy in the `my_gapminder` data is less than 60 years.
+
+**Test 3:**
+$$
+\begin{align*}
+  H_0: &\quad \mu = 60 \\
+  H_a: &\quad \mu > 60
+\end{align*}
+$$
+
+```{r}
+# One-sided test using my_gapminder data
+test_3 <- my_t.test(x = my_gapminder$lifeExp,
+                    alternative = "greater",
+                    mu = 60)
+
+# Display the results of the t-test
+test_3
+```
+
+The test statistic for this one-sided t-test was `r round(test_3$test_stat, digits = 2)`, and the p-value was `r round(test_3$p_val, digits = 4)`. Since the p-value is greater than the significance level (`r round(test_3$p_val, digits = 4)` > 0.05), we fail to reject the null hypothesis. In context with the data, this means that there is not sufficient evidence to determine that the average life expectancy in the `my_gapminder` data is greater than 60 years.
+
+
+### `my_lm`: Linear regression model
+
+The function `my_lm()` creates a linear regression model for a given relation of variables. It also conducts two-sided t-tests against the null hypothesis of $\beta_n \neq 0$, testing whether there is sufficient evidence for the model coefficients to have values other than zero. The following is a demonstration of the function using the `my_gapminder` and analysis of the results.
+
+```{r}
+# create linear model
+lm_results <- my_lm(lifeExp ~ gdpPercap + continent, data = my_gapminder)
+
+# Display coefficients and t-test results
+lm_results
+```
+
+The estimate of the coefficient of `gdpPercap` is `r format(lm_results[2,1], scientific = FALSE)`. In context with the data, this means that, all other things equal, a one-dollar increase in GDP per capita for a given country raises the estimate of the life expectancy of that country by approximtately four ten-thousandths of a year, or roughly four hours.
+
+The hypothesis test conducted by `my_lm()` for the `gdpPercap` coefficient is:
+$$
+\begin{align*}
+  H_0: &\quad \beta_i = 0 \\
+  H_a: &\quad \beta_i \neq 0
+\end{align*}
+$$
+In these hypotheses, $\beta_i$ represents the value of the `gdpPercap` coefficient. According to the results of `my_lm()`, the p-value for the two-sided hypothesis test is `r lm_results[2,4]`. This value is much smaller than a significance value of $\alpha = 0.05$, so the null hypothesis is rejected. There is sufficient evidence to conclude that the value of $\beta_i$ (the `gdpPercap` coefficient) is not zero.
+
+To further the analysis of the model results, we can plot the actual vs. fitted values of the model to see how well the model fits the data.
+
+```{r}
+# calculating model-fitted values of the response variable lifeExp
+
+# obtain coefficients from my_lm() results
+model_coefficients <- lm_results[, "Estimate"]
+
+# turning data into matrix for model
+model_x <- model.matrix(lifeExp ~ gdpPercap + continent,
+                        data = my_gapminder)
+
+# applying coefficient estimates to data to obtain estimated lifeExp
+model_y_hat <- model_x %*% model_coefficients
+
+
+# plotting actual vs. fitted values
+library(ggplot2)
+
+# combining actual vs. fitted values of lifeExp into one data frame
+model_plot_data <- data.frame("actual" = my_gapminder$lifeExp,
+                              "fitted" = model_y_hat)
+
+# create plot
+model_plot <- ggplot(model_plot_data,
+                              aes(x = fitted, y = actual)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) +
+  theme_bw(base_size = 15) +
+  labs(x = "Fitted values",
+       y = "Actual values",
+       title = "Actual vs. Fitted Life Expectancy Values") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# display plot
+model_plot
+```
+
+For values of `lifeExp` in the `my_gapminder` data above about 70, the model does an okay job of fitting the data and accurately estimating `lifeExp`. There are some clear outliers where the estimate of `lifeExp` is far higher than the actual value of `lifeExp`. With lower values of variable estimates, there appear to be distint groupings of points in vertical-bar clusters. This could be caused by the fact that points are categorized by `continent`. Different continents have different coefficients in the model, and if the continent has a large spread of actual life expectancy values, the weight of the continent category in the model could be grouping this wide spread of values on the y-axis into narrow windows on the x-axis. Overall, the model does an adequate job of estimating values of `lifeExp` based on `gdpPercap` and `continent`.
+
+
+### `my_knn_cv': k-nearest-neighbors statistical prediction
+
+
+
+
+
+
+
+
