@@ -21,7 +21,7 @@ my_rf_cv <- function(k) {
     stop("k must be numeric")
   }
   # obtain desired penguins data
-  fun_data <- my_penguins
+  fun_data <- project3package::my_penguins
   # randomly assign observations to one of k folds
   fold <- sample(rep(1:k, length = nrow(fun_data)))
   fun_data <- cbind(fun_data, fold)

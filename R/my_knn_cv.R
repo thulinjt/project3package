@@ -19,21 +19,27 @@
 #'   the folds in the cross-validation.
 #'
 #' @examples
-#' my_knn_cv(train = my_penguins %>% dplyr::select(body_mass_g,
+#'
+#' my_train <- my_penguins %>% dplyr::select(body_mass_g,
 #'                                          flipper_length_mm,
 #'                                          bill_length_mm,
-#'                                          bill_depth_mm),
-#'           cl = my_penguins %>% dplyr::select(species),
+#'                                          bill_depth_mm)
+#' my_cl <- my_penguins %>% dplyr::pull(species)
+#' my_knn_cv(train = my_train,
+#'           cl = my_cl,
 #'           k_nn = 3,
 #'           k_cv = 5)
 #'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # combine classes with obervations
-  train_class <- cbind(train, cl)
+  #train_class <- cbind(train, cl)
+  train_class <- train
+  train_class$cl <- cl
   # randomly generate folds and assign to each observation
   fold <- sample(rep(1:k_cv, length = nrow(train)))
-  train_class <- cbind(train_class, fold)
+  #train_class <- cbind(train_class, fold)
+  train_class$fold <- fold
   # define cumulative misclassification error rate
   misclass_sum <- 0
   # perform k-nearest-neighbors cross-validation on each fold
