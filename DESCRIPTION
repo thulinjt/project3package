@@ -18,7 +18,8 @@ Imports:
     class,
     randomForest,
     tibble,
-    gapminder
+    gapminder,
+    ggplot2
 Depends: 
     R (>= 2.10)
 Suggests: 
