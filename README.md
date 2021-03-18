@@ -10,18 +10,21 @@ The goal of project3package is to ...
 
 ## Installation
 
-You can install the project3package using the followign line:
+You can install the project3package using the following line:
 
 ``` r
 devtools::install_github("thulinjt/project3package", build_vignette = TRUE, build_opts = c())
 ```
 
-## Example
+## Use
 
-This is a basic example which shows you how to solve a common problem:
+The vignette demonstrates example usage of all main functions. You can see the vignette by using the following code:
 
 ``` r
 library(project3package)
-## basic example code
+# Use this to view the vignette in the project3package HTML help
+help(package = "project3package", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "project3package")
 ```
 
