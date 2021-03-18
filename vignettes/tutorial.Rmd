@@ -147,7 +147,7 @@ model_plot <- ggplot(model_plot_data,
                               aes(x = fitted, y = actual)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) +
-  theme_bw(base_size = 15) +
+  theme_bw(base_size = 14) +
   labs(x = "Fitted values",
        y = "Actual values",
        title = "Actual vs. Fitted Life Expectancy Values") +
@@ -203,9 +203,46 @@ The above code chunk performed k-nearest-neighbors analyses on `my_penguins` dat
 The table above shows the resultant training error and cross-validation error from running a k-nearest-neighbors algorithm using 1 neighbor through 10 neighbors, all using 5-fold cross-validation. For this data, based on the training error and the cross-validation error, I would select the model that uses 1-nearest-neighbor. In general, the optimal model to choose is the one that minimizes cross-validation error, since cross-validation error is a less biased assessment of the error a model will produce in practice. In this instance, the model with the lowest cross-validation error happens to also be the one with the lowest training error, though this will not always be the case.
 
 
+### `my_rf_cv`: Random-forest algorithm statistical prediction
 
+The function `my_rf_cv()` runs a random-forest statistical prediction algorithm on `my_penguins` data and performs k-fold cross validation on those prediction models. The following is a demonstration of the function.
 
+```{r}
+rf_results <- NULL
 
+# generate 30 MSE values for 2-, 5-, and 10-fold cross validation
+for (i in c(2, 5, 10)) {
+  for (j in 1:30) {
+    rf_results <- append(rf_results, my_rf_cv(i))
+  }
+}
+
+# format results into data frame
+rf_results_df <- data.frame("k" = as.factor(rep(c(2, 5, 10), each = 30)),
+                            "mse" = rf_results)
+
+# generate plot with boxplots of my_rf_cv result distributions by k-value
+rf_plot <- ggplot(rf_results_df, aes(x = mse, y = k)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_bw(base_size = 14) +
+  labs(x = "MSE value",
+       y = "Fold count (k)",
+       title = "Random-forest CV Error Distributions") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# generate table with mean and std. dev of MSE values for each fold
+rf_table <- rf_results_df %>% 
+  dplyr::group_by(k) %>% 
+  dplyr::summarize(mean(mse), sd(mse))
+
+colnames(rf_table) <- c("k", "mean_mse", "sd_mse")
+
+# display plot and summary table
+rf_plot
+knitr::kable(rf_table)
+```
+
+From the boxplots, it is evident that higher values of k (greater numbers of folds in the cross-validation) results in lower mean squared-error values for the random-forest algorithm cross validation. Additionally, the spread of the distributions of MSE values decreases as k increases. The values in the table demonstrate this because the highest mean and standard deviation of MSE values is for k = 2 folds, with k = 5 folds having the next-lowest mean and standard deviation, and k = 10 folds has the lowest mean and standard deviation of MSE values. This could be because as the number of folds in the cross-validation increases, the less training-set bias there is in the estimate of the random-forest model error. The individual folds decrease in size, and the relative sizes of the in-fold and out-fold groups of data changes drastically. More of the data is tested against less of the data more times as the number of folds increases, decreasing the noise and bias in the error estimates.
 
 
 
